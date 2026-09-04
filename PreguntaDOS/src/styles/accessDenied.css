@@ -1,0 +1,68 @@
+.access-denied-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  background: #f5f7fb;
+  color: #172033;
+}
+
+.access-denied-card {
+  width: min(460px, 100%);
+  box-sizing: border-box;
+  padding: 2.2rem;
+  border: 1px solid #dde3ee;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 18px 50px rgba(30, 42, 70, 0.08);
+  text-align: center;
+}
+
+.access-denied-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 1rem;
+  border-radius: 16px;
+  background: #fff0f1;
+  color: #a72d3b;
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+.access-denied-eyebrow {
+  margin: 0 0 0.45rem;
+  color: #7a879f;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.access-denied-card h1 {
+  margin: 0;
+  font-size: clamp(2rem, 8vw, 2.7rem);
+}
+
+.access-denied-card > p:not(.access-denied-eyebrow) {
+  margin: 0.8rem auto 1.5rem;
+  color: #667085;
+  line-height: 1.6;
+}
+
+.access-denied-card button {
+  border: 0;
+  border-radius: 11px;
+  padding: 0.78rem 1.2rem;
+  background: #263d84;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.access-denied-card button:hover {
+  background: #1d316f;
+}

@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Administrador",
+      "email": "admin@quiz.com",
+      "password": "1234",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "name": "Jugador",
+      "email": "user@quiz.com",
+      "password": "1234",
+      "role": "user"
+    }
+  ],
+  "questions": [
+    {
+      "id": "1",
+      "question": "¿Qué hook de React permite manejar estado?",
+      "options": [
+        "useEffect",
+        "useState",
+        "useRoute",
+        "useComponent"
+      ],
+      "correctAnswer": "useState",
+      "category": "React"
+    },
+    {
+      "id": "2",
+      "question": "¿Qué componente de React Router se usa para crear enlaces sin recargar la página?",
+      "options": [
+        "Route",
+        "Link",
+        "BrowserRouter",
+        "Navigate"
+      ],
+      "correctAnswer": "Link",
+      "category": "React Router"
+    },
+    {
+      "id": "3",
+      "question": "¿Cuánto es 5 x 5?",
+      "options": [
+        "10",
+        "20",
+        "25",
+        "30"
+      ],
+      "correctAnswer": "25",
+      "category": "Matemáticas"
+    }
+  ],
+  "scores": []
+}
