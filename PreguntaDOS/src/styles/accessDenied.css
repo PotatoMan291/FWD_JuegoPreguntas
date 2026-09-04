@@ -1,0 +1,52 @@
+/* accessDenied.css
+   Estilos para la página de acceso denegado. Diseño simple y centrado,
+   sin animaciones innecesarias. */
+
+.access-denied-container {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.access-denied-card {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  background-color: #f5f7fa;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+}
+
+.access-denied-card h1 {
+  font-size: 1.75rem;
+  color: #b91c1c;
+  margin-bottom: 0.75rem;
+}
+
+.access-denied-card p {
+  color: #1f2933;
+  margin-bottom: 1.5rem;
+}
+
+.access-denied-button {
+  padding: 0.6rem 1.2rem;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.access-denied-button:hover {
+  background-color: #1d4ed8;
+}
+
+@media (max-width: 480px) {
+  .access-denied-card {
+    padding: 1.5rem 1rem;
+  }
+}
