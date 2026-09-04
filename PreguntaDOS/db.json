@@ -1,0 +1,141 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Administrador",
+      "email": "admin@quiz.com",
+      "password": "1234",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "name": "Jugador",
+      "email": "user@quiz.com",
+      "password": "1234",
+      "role": "user"
+    }
+  ],
+  "questions": [
+    {
+      "id": "1",
+      "question": "¿Qué hook de React permite manejar estado?",
+      "options": [
+        "useEffect",
+        "useState",
+        "useRoute",
+        "useComponent"
+      ],
+      "correctAnswer": "useState",
+      "category": "React"
+    },
+    {
+      "id": "2",
+      "question": "¿Qué hook de React permite ejecutar efectos secundarios?",
+      "options": [
+        "useState",
+        "useReducer",
+        "useEffect",
+        "useMemo"
+      ],
+      "correctAnswer": "useEffect",
+      "category": "React"
+    },
+    {
+      "id": "3",
+      "question": "¿Cuál etiqueta HTML se usa para el elemento más importante de una página?",
+      "options": [
+        "<h1>",
+        "<p>",
+        "<span>",
+        "<div>"
+      ],
+      "correctAnswer": "<h1>",
+      "category": "HTML"
+    },
+    {
+      "id": "4",
+      "question": "¿Qué propiedad CSS se usa para cambiar el color del texto?",
+      "options": [
+        "background-color",
+        "text-align",
+        "color",
+        "font-style"
+      ],
+      "correctAnswer": "color",
+      "category": "CSS"
+    },
+    {
+      "id": "5",
+      "question": "¿Qué palabra clave declara una variable que no puede reasignarse en JavaScript?",
+      "options": [
+        "var",
+        "let",
+        "const",
+        "static"
+      ],
+      "correctAnswer": "const",
+      "category": "JavaScript"
+    },
+    {
+      "id": "6",
+      "question": "¿Qué método de array crea un nuevo array transformando cada elemento?",
+      "options": [
+        "filter",
+        "map",
+        "reduce",
+        "forEach"
+      ],
+      "correctAnswer": "map",
+      "category": "JavaScript"
+    },
+    {
+      "id": "7",
+      "question": "¿Qué comando se usa para ver el estado de los archivos en Git?",
+      "options": [
+        "git status",
+        "git log",
+        "git commit",
+        "git branch"
+      ],
+      "correctAnswer": "git status",
+      "category": "Git"
+    },
+    {
+      "id": "8",
+      "question": "¿Qué comando crea una nueva rama y se cambia a ella al mismo tiempo?",
+      "options": [
+        "git branch -b",
+        "git switch",
+        "git checkout -b",
+        "git new"
+      ],
+      "correctAnswer": "git checkout -b",
+      "category": "Git"
+    },
+    {
+      "id": "9",
+      "question": "En programación, ¿qué estructura repite un bloque de código mientras se cumpla una condición?",
+      "options": [
+        "if",
+        "switch",
+        "while",
+        "function"
+      ],
+      "correctAnswer": "while",
+      "category": "Programación"
+    },
+    {
+      "id": "10",
+      "question": "¿Qué tipo de dato representa verdadero o falso en programación?",
+      "options": [
+        "string",
+        "boolean",
+        "number",
+        "object"
+      ],
+      "correctAnswer": "boolean",
+      "category": "Programación"
+    }
+  ],
+  "scores": []
+}
