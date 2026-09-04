@@ -1,169 +1,174 @@
-// QuestionForm.jsx
-// Formulario controlado para crear una nueva pregunta.
-// No sabe nada de fetch ni de JSON Server: solo arma el objeto y
-// llama a la función que recibe por props (onCreate).
+import { useMemo, useState } from 'react'
 
-import { useState } from "react";
+const INITIAL_FORM = {
+  question: '',
+  category: '',
+  optionA: '',
+  optionB: '',
+  optionC: '',
+  optionD: '',
+  correctOption: ''
+}
 
-const initialState = {
-  question: "",
-  category: "",
-  optionA: "",
-  optionB: "",
-  optionC: "",
-  optionD: "",
-  correctAnswer: "",
-};
+function QuestionForm({ onCreate, disabled = false }) {
+  const [form, setForm] = useState(INITIAL_FORM)
+  const [error, setError] = useState('')
 
-function QuestionForm({ onCreate }) {
-  const [formData, setFormData] = useState(initialState);
-  const [formError, setFormError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const options = useMemo(
+    () => [form.optionA, form.optionB, form.optionC, form.optionD],
+    [form.optionA, form.optionB, form.optionC, form.optionD]
+  )
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setForm((current) => ({ ...current, [name]: value }))
+    setError('')
   }
 
-  function validate() {
-    const { question, category, optionA, optionB, optionC, optionD, correctAnswer } = formData;
+  const handleSubmit = async (event) => {
+    event.preventDefault()
 
-    if (!question.trim()) return "La pregunta no puede estar vacía.";
-    if (!category.trim()) return "La categoría no puede estar vacía.";
-    if (!optionA.trim() || !optionB.trim() || !optionC.trim() || !optionD.trim()) {
-      return "Ninguna opción puede estar vacía.";
-    }
-    if (!correctAnswer) return "Debes seleccionar cuál opción es la correcta.";
+    const cleanedOptions = options.map((option) => option.trim())
+    const selectedIndex = Number(form.correctOption)
 
-    const options = [optionA.trim(), optionB.trim(), optionC.trim(), optionD.trim()];
-    if (!options.includes(correctAnswer)) {
-      return "La respuesta correcta debe coincidir exactamente con una de las opciones.";
-    }
-
-    return "";
-  }
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    const validationError = validate();
-    if (validationError) {
-      setFormError(validationError);
-      return;
+    if (
+      !form.question.trim() ||
+      !form.category.trim() ||
+      cleanedOptions.some((option) => !option) ||
+      !Number.isInteger(selectedIndex) ||
+      selectedIndex < 0 ||
+      selectedIndex > 3
+    ) {
+      setError('Completa todos los campos y selecciona la respuesta correcta.')
+      return
     }
 
-    const newQuestion = {
-      question: formData.question.trim(),
-      options: [
-        formData.optionA.trim(),
-        formData.optionB.trim(),
-        formData.optionC.trim(),
-        formData.optionD.trim(),
-      ],
-      correctAnswer: formData.correctAnswer,
-      category: formData.category.trim(),
-    };
-
-    setFormError("");
-    setSubmitting(true);
+    const question = {
+      question: form.question.trim(),
+      options: cleanedOptions,
+      correctAnswer: cleanedOptions[selectedIndex],
+      category: form.category.trim()
+    }
 
     try {
-      await onCreate(newQuestion);
-      // Solo limpiamos el formulario si la creación fue exitosa.
-      setFormData(initialState);
-    } catch (error) {
-      setFormError(error.message || "No se pudo crear la pregunta.");
-    } finally {
-      setSubmitting(false);
+      await onCreate(question)
+      setForm(INITIAL_FORM)
+      setError('')
+    } catch (submitError) {
+      setError(submitError.message || 'No se pudo crear la pregunta.')
     }
   }
-
-  const options = [formData.optionA, formData.optionB, formData.optionC, formData.optionD];
 
   return (
     <form className="question-form" onSubmit={handleSubmit}>
-      <h2>Nueva pregunta</h2>
+      <div className="question-form__heading">
+        <div>
+          <p className="admin-eyebrow">Nueva pregunta</p>
+          <h2>Agregar pregunta</h2>
+        </div>
+        <span className="question-form__badge">4 opciones</span>
+      </div>
 
-      <label htmlFor="question">Pregunta</label>
-      <input
-        id="question"
-        name="question"
-        type="text"
-        value={formData.question}
-        onChange={handleChange}
-        placeholder="Escribe la pregunta"
-      />
+      <label className="question-form__field question-form__field--wide">
+        <span>Texto de la pregunta</span>
+        <textarea
+          name="question"
+          value={form.question}
+          onChange={handleChange}
+          placeholder="Ej. ¿Qué hook de React permite manejar estado?"
+          rows="3"
+          required
+          disabled={disabled}
+        />
+      </label>
 
-      <label htmlFor="category">Categoría</label>
-      <input
-        id="category"
-        name="category"
-        type="text"
-        value={formData.category}
-        onChange={handleChange}
-        placeholder="Ej: React, JavaScript, HTML..."
-      />
+      <label className="question-form__field question-form__field--wide">
+        <span>Categoría</span>
+        <input
+          name="category"
+          type="text"
+          value={form.category}
+          onChange={handleChange}
+          placeholder="Ej. React"
+          required
+          disabled={disabled}
+        />
+      </label>
 
-      <label htmlFor="optionA">Respuesta A</label>
-      <input
-        id="optionA"
-        name="optionA"
-        type="text"
-        value={formData.optionA}
-        onChange={handleChange}
-      />
+      <div className="question-form__options">
+        <label className="question-form__field">
+          <span>Respuesta A</span>
+          <input
+            name="optionA"
+            type="text"
+            value={form.optionA}
+            onChange={handleChange}
+            required
+            disabled={disabled}
+          />
+        </label>
 
-      <label htmlFor="optionB">Respuesta B</label>
-      <input
-        id="optionB"
-        name="optionB"
-        type="text"
-        value={formData.optionB}
-        onChange={handleChange}
-      />
+        <label className="question-form__field">
+          <span>Respuesta B</span>
+          <input
+            name="optionB"
+            type="text"
+            value={form.optionB}
+            onChange={handleChange}
+            required
+            disabled={disabled}
+          />
+        </label>
 
-      <label htmlFor="optionC">Respuesta C</label>
-      <input
-        id="optionC"
-        name="optionC"
-        type="text"
-        value={formData.optionC}
-        onChange={handleChange}
-      />
+        <label className="question-form__field">
+          <span>Respuesta C</span>
+          <input
+            name="optionC"
+            type="text"
+            value={form.optionC}
+            onChange={handleChange}
+            required
+            disabled={disabled}
+          />
+        </label>
 
-      <label htmlFor="optionD">Respuesta D</label>
-      <input
-        id="optionD"
-        name="optionD"
-        type="text"
-        value={formData.optionD}
-        onChange={handleChange}
-      />
+        <label className="question-form__field">
+          <span>Respuesta D</span>
+          <input
+            name="optionD"
+            type="text"
+            value={form.optionD}
+            onChange={handleChange}
+            required
+            disabled={disabled}
+          />
+        </label>
+      </div>
 
-      <label htmlFor="correctAnswer">Respuesta correcta</label>
-      <select
-        id="correctAnswer"
-        name="correctAnswer"
-        value={formData.correctAnswer}
-        onChange={handleChange}
-      >
-        <option value="">Selecciona la opción correcta</option>
-        {options.map((option, index) => (
-          option.trim() ? (
-            <option key={index} value={option}>
-              {option}
-            </option>
-          ) : null
-        ))}
-      </select>
+      <label className="question-form__field question-form__field--wide">
+        <span>Respuesta correcta</span>
+        <select
+          name="correctOption"
+          value={form.correctOption}
+          onChange={handleChange}
+          required
+          disabled={disabled}
+        >
+          <option value="">Selecciona una opción</option>
+          <option value="0">Respuesta A</option>
+          <option value="1">Respuesta B</option>
+          <option value="2">Respuesta C</option>
+          <option value="3">Respuesta D</option>
+        </select>
+      </label>
 
-      {formError && <p className="question-form-error">{formError}</p>}
+      {error && <p className="question-form__error" role="alert">{error}</p>}
 
-      <button type="submit" disabled={submitting}>
-        {submitting ? "Creando..." : "Crear pregunta"}
+      <button className="admin-primary-button" type="submit" disabled={disabled}>
+        {disabled ? 'Guardando...' : 'Crear pregunta'}
       </button>
     </form>
-  );
+  )
 }
 
-export default QuestionForm;
+export default QuestionForm

@@ -1,61 +1,37 @@
-// adminService.js
-// Servicio encargado de las operaciones administrativas sobre las preguntas.
-// Habla directamente con JSON Server usando Fetch API.
-// No contiene lógica visual: solo hace las peticiones y devuelve datos o errores.
+const API_URL = 'http://localhost:3001/questions'
 
-const BASE_URL = "http://localhost:3001";
-
-/**
- * Obtiene todas las preguntas registradas.
- * GET /questions
- * @returns {Promise<Array>} arreglo de preguntas
- */
-export async function getQuestions() {
-  const response = await fetch(`${BASE_URL}/questions`);
+async function request(url, options = {}) {
+  const response = await fetch(url, options)
 
   if (!response.ok) {
-    throw new Error("No se pudieron cargar las preguntas. Verifica que JSON Server esté activo.");
+    const message = await response.text().catch(() => '')
+    throw new Error(message || `Error HTTP ${response.status}`)
   }
 
-  const questions = await response.json();
-  return questions;
+  if (response.status === 204) {
+    return null
+  }
+
+  const text = await response.text()
+  return text ? JSON.parse(text) : null
 }
 
-/**
- * Crea una nueva pregunta.
- * POST /questions
- * @param {Object} question - objeto con { question, options, correctAnswer, category }
- * @returns {Promise<Object>} la pregunta creada (con el id que asigna JSON Server)
- */
-export async function createQuestion(question) {
-  const response = await fetch(`${BASE_URL}/questions`, {
-    method: "POST",
+export function getQuestions() {
+  return request(API_URL)
+}
+
+export function createQuestion(question) {
+  return request(API_URL, {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(question),
-  });
-
-  if (!response.ok) {
-    throw new Error("No se pudo crear la pregunta. Intenta nuevamente.");
-  }
-
-  const createdQuestion = await response.json();
-  return createdQuestion;
+    body: JSON.stringify(question)
+  })
 }
 
-/**
- * Elimina una pregunta por su id.
- * DELETE /questions/:id
- * @param {string} id
- * @returns {Promise<void>}
- */
-export async function deleteQuestion(id) {
-  const response = await fetch(`${BASE_URL}/questions/${encodeURIComponent(id)}`, {
-    method: "DELETE",
-  });
-
-  if (!response.ok) {
-    throw new Error("No se pudo eliminar la pregunta. Intenta nuevamente.");
-  }
+export function deleteQuestion(id) {
+  return request(`${API_URL}/${id}`, {
+    method: 'DELETE'
+  })
 }

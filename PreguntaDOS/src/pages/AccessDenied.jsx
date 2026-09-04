@@ -1,28 +1,31 @@
-// AccessDenied.jsx
-// Página sencilla que se muestra cuando un usuario autenticado intenta
-// entrar a una sección que requiere rol de administrador y no lo tiene.
-
-import { useNavigate } from "react-router-dom";
-import "../styles/accessDenied.css";
+import { useNavigate } from 'react-router-dom'
+import '../styles/accessDenied.css'
 
 function AccessDenied() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  function handleGoHome() {
-    navigate("/dashboard");
+  const volver = () => {
+    if (window.history.length > 1) {
+      navigate(-1)
+      return
+    }
+
+    navigate('/dashboard')
   }
 
   return (
-    <main className="access-denied-container">
-      <div className="access-denied-card">
-        <h1>Acceso denegado</h1>
+    <main className="access-denied-page">
+      <section className="access-denied-card" aria-labelledby="access-denied-title">
+        <div className="access-denied-icon" aria-hidden="true">!</div>
+        <p className="access-denied-eyebrow">Permisos insuficientes</p>
+        <h1 id="access-denied-title">Acceso denegado</h1>
         <p>No tienes permisos para entrar a esta sección.</p>
-        <button type="button" className="access-denied-button" onClick={handleGoHome}>
-          Volver al inicio
+        <button type="button" onClick={volver}>
+          Volver
         </button>
-      </div>
+      </section>
     </main>
-  );
+  )
 }
 
-export default AccessDenied;
+export default AccessDenied
